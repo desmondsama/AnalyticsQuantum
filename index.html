@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Quantum - Data-Driven Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            height: auto;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cpath d="M0 0 L50 50 L100 0 Z" fill="none" stroke="%231a2a44" stroke-width="0.5" opacity="0.2"/%3E%3C/svg%3E') repeat;
+            z-index: -1;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100px, 100px); }
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(26, 42, 68, 0.15) 0%, transparent 70%);
+            z-index: -1;
+            animation: pulse 6s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            100% { opacity: 0.7; }
+        }
+
+        .particle {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #1e90ff;
+            border-radius: 50%;
+            animation: float 18s infinite;
+            z-index: -1;
+            box-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            50% { transform: translate(150px, -150px) scale(1.8); opacity: 0.9; }
+            100% { transform: translate(50px, 0) scale(1); opacity: 0.6; }
+        }
+
+        header {
+            background: #1a2a44;
+            color: #fff;
+            padding: 1.5rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #333;
+        }
+
+        header .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 80px;
+            width: 80px;
+            border-radius: 50%;
+            object-fit: contain;
+            display: block;
+            border: 2px solid #1e90ff;
+            background-color: #1a2a44;
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            position: relative;
+            margin-right: 2rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: block;
+            transition: background 0.7s;
+        }
+
+        nav ul li:hover > a {
+            background: #2a4064;
+            border-radius: 8px;
+        }
+
+        nav ul ul {
+            display: none;
+            position: absolute;
+            background: #1a2a44;
+            min-width: 200px;
+            top: 100%;
+            left: 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        nav ul li:hover > ul {
+            display: block;
+        }
+
+        nav ul ul li {
+            margin: 0;
+        }
+
+        nav ul ul li a {
+            padding: 0.8rem 1.5rem;
+        }
+
+        header a.book-call {
+            background: linear-gradient(90deg, #1e90ff, #00b7eb);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(30, 144, 255, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        header a.book-call:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(30, 144, 255, 0.4);
+            background: linear-gradient(90deg, #1c86ee, #00a3d1);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        main {
+            margin-top: 150px;
+        }
+
+        section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            position: relative;
+            padding: 0;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 600px;
+        }
+
+        .hero-text {
+            text-align: left;
+            max-width: 50%;
+            z-index: 1;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #1e90ff;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .book-call {
+            background: linear-gradient(90deg, #1e90ff, #00b7eb);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(30, 144, 255, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block;
+        }
+
+        .hero .book-call:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(30, 144, 255, 0.4);
+            background: linear-gradient(90deg, #1c86ee, #00a3d1);
+        }
+
+        .hero .subtext {
+            font-size: 2rem;
+            color: #b0c4de;
+            font-weight: 700;
+            margin-top: 1.5rem;
+        }
+
+        .hero-image {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 600px;
+            height: 600px;
+            background: url('HWDI_proactive_executive_coaching_and_leadership_development.webp') no-repeat center;
+            background-size: cover;
+            opacity: 0.3;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .content-block {
+            background: linear-gradient(135deg, #1a2a44, #0f1a2e);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+            box-shadow: 0 6px 15px rgba(30, 144, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .content-block h3 {
+            color: #fff;
+            margin-bottom: 1.2rem;
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .content-block p, .content-block ul {
+            color: #ccc;
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .content-block ul {
+            list-style: disc;
+            padding-left: 1.5rem;
+        }
+
+        .content-block ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .content-block .project-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .content-block .project {
+            min-width: 0;
+        }
+
+        .content-block .project.expanded {
+            grid-column: span 2;
+        }
+
+        .content-block .project .description {
+            min-height: 150px;
+        }
+
+        .content-block .project h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-block iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .content-block a.book-call {
+            background: linear-gradient(90deg, #1e90ff, #00b7eb);
+            color: #fff;
+            padding: 0.7rem 2rem;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            display: inline-block;
+            align-self: flex-start;
+            box-shadow: 0 2px 6px rgba(30, 144, 255, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .content-block a.book-call:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(30, 144, 255, 0.4);
+            background: linear-gradient(90deg, #1c86ee, #00a3d1);
+        }
+
+        .content-block .see-more {
+            color: #1e90ff;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 700;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        .content-block .see-more:hover {
+            color: #00b7eb;
+        }
+
+        #services-basic .project h4 { color: #87CEEB; }
+        #services-standard .project h4 { color: #90EE90; }
+        #services-premium .project h4 { color: #D8BFD8; }
+        #services-basic { background: linear-gradient(135deg, #1a2a44, #87CEEB22); }
+        #services-standard { background: linear-gradient(135deg, #1a2a44, #90EE9022); }
+        #services-premium { background: linear-gradient(135deg, #1a2a44, #D8BFD822); }
+
+        .client-testimonials .testimonial {
+            background: linear-gradient(135deg, #1a2a44, #0f1a2e);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1rem 0.5rem;
+            box-shadow: 0 4px 10px rgba(30, 144, 255, 0.1);
+            width: 45%;
+            min-height: 200px;
+            display: inline-block;
+            vertical-align: top;
+            align-self: flex-start;
+        }
+
+        .email-section {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .email-section .schedule {
+            font-size: 1.6rem;
+            color: #b0c4de;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .email-section .email-form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .email-section .email-form input {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+
+        .email-section .email-form button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            background: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.5s ease;
+        }
+
+        .email-section .email-form button:hover {
+            background-color: #003087;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: #1a2a44;
+                padding: 1rem 0;
+            }
+            nav ul.active {
+                display: flex;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+                width: 100%;
+            }
+            nav ul li a {
+                padding: 0.5rem;
+                text-align: center;
+            }
+            nav ul ul {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+            }
+            header .container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            header a.book-call {
+                margin-top: 0.5rem;
+            }
+            .logo {
+                height: 60px;
+                width: 60px;
+            }
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                min-height: 300px;
+            }
+            .hero-text {
+                max-width: 100%;
+            }
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            .hero .subtext {
+                font-size: 1.2rem;
+            }
+            .hero-image {
+                position: static;
+                width: 300px;
+                height: 300px;
+                margin: 1rem auto;
+            }
+            .content-block .project-container {
+                grid-template-columns: 1fr;
+            }
+            .content-block .project {
+                width: 100%;
+            }
+            .content-block .project.expanded {
+                grid-column: span 1;
+            }
+            .content-block iframe {
+                height: 300px;
+            }
+            .content-block .project:nth-child(2),
+            .content-block .project:nth-child(3) {
+                display: none;
+            }
+            .content-block .see-more {
+                display: block;
+            }
+            .client-testimonials .testimonial {
+                width: 90%;
+                margin: 1rem 0;
+                min-height: 220px;
+                display: block;
+            }
+            .email-section .email-form {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .email-section .email-form input {
+                border-radius: 5px;
+            }
+            .email-section .email-form button {
+                border-radius: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particle" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+    <div class="particle" style="top: 30%; left: 40%; animation-delay: 2s;"></div>
+    <div class="particle" style="top: 50%; left: 60%; animation-delay: 4s;"></div>
+    <div class="particle" style="top: 70%; left: 80%; animation-delay: 6s;"></div>
+    <div class="particle" style="top: 15%; left: 35%; animation-delay: 1s;"></div>
+    <div class="particle" style="top: 45%; left: 75%; animation-delay: 3s;"></div>
+    <div class="particle" style="top: 65%; left: 25%; animation-delay: 5s;"></div>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo-link">
+                <img src="wrgw.png" alt="Analytics Quantum Logo" class="logo">
+            </a>
+            <div class="menu-toggle">☰</div>
+            <nav>
+                <ul>
+                    <li><a href="#services">Services</a>
+                        <ul>
+                            <li><a href="#services-basic">Basic</a></li>
+                            <li><a href="#services-standard">Standard</a></li>
+                            <li><a href="#services-premium">Premium</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#next-step">Your Next Step</a></li>
+                    <li><a href="https://calendly.com/analyticsquantum-info/30min" class="book-call" target="_blank">Book a Call</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="hero">
+            <div class="hero-text">
+                <h2>Unlock Your Business Potential With Expert Data-Driven Solutions</h2>
+                <a href="https://calendly.com/analyticsquantum-info/30min" class="book-call" target="_blank">Book a Meeting</a>
+                <div class="subtext">Transform disparate business data into clear, profitable insights.</div>
+            </div>
+            <div class="hero-image"></div>
+        </section>
+
+        <section class="services" id="services">
+            <h2>Services</h2>
+            <div class="content-block" id="services-basic">
+                <h3>Basic</h3>
+                <div class="project-container">
+                    <div class="project">
+                        <h4>Retail Profit Insights</h4>
+                        <div class="description">
+                            <p><strong>Service Offered:</strong> We provide tailored retail-focused analytics to uncover hidden losses, analyze profit margins, identify revenue-impacting trends (e.g., specific days like Wednesday), and deliver actionable insights using retail-specific patterns like seasonality, inventory turns, customer segmentation, and promotional impacts.</p>
+                        </div>
+                        <iframe src="https://app.powerbi.com/view?r=eyJrIjoiMjdmYWJhMDAtYjc5MS00MGVkLTg4MjAtMDExYThlMGJmODJhIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9&disablecdnExpiration=1747930222" title="Retail Dashboard - Profit Insights" style="width: 100%; height: 400px; border: none; border-radius: 10px; margin: 0;"></iframe>
+                    </div>
+                    <div class="project">
+                        <h4>Basic Inventory Optimization</h4>
+                        <div class="description">
+                            <p><strong>Service Offered:</strong> Streamline stock levels with predictive analytics to reduce overstock and stockouts, improving cash flow and efficiency.</p>
+                        </div>
+                        <iframe src="https://app.powerbi.com/view?r=example-id2" title="Inventory Optimization Dashboard" style="width: 100%; height: 400px; border: none; border-radius: 10px; margin: 0;"></iframe>
+                    </div>
+                    <div class="project" style="display: none;">
+                        <h4>Sales Trend Analysis</h4>
+                        <div class="description">
+                            <p><strong>Service Offered:</strong> Identify seasonal sales patterns and forecast demand to optimize staffing and inventory.</p>
+                        </div>
+                        <iframe src="https://app.powerbi.com/view?r=example-id5" title="Sales Trend Analysis Dashboard" style="width: 100%; height: 400px; border: none; border-radius: 10px; margin: 0;"></iframe>
+                    </div>
+                </div>
+                <a href="#" class="see-more">See More</a>
+                <a href="#next-step" class="book-call">Book a Call</a>
+            </div>
+            <div class="content-block" id="services-standard">
+                <h3>Standard</h3>
+                <div class="project-container">
+                    <div class="project">
+                        <h4>Sales Performance Analysis</h4>
+                        <div class="description">
+                            <p><strong>Service Offered:</strong> We deliver detailed profitability analysis to identify true money makers, optimizing product and marketing strategies.</p>
+                        </div>
+                        <iframe src="https://app.powerbi.com/view?r=your-report-id1" title="Sales Performance Dashboard" style="width: 100%; height: 400px; border: none; border-radius: 10px; margin: 0;"></iframe>
+                    </div>
+                    <div class="project">
+                        <h4>Marketing ROI Analysis</h4>
+                        <div class="description">
+                            <p><strong>Service Offered:</strong> Evaluate campaign effectiveness and optimize ad spend for maximum return.</p>
+                        </div>
+                        <iframe src="https://app.powerbi.com/view?r=example-id3" title="Marketing ROI Dashboard" style="width: 100%; height: 400px; border: none; border-radius: 10px; margin: 0;"></iframe>
+                    </div>
+                    <div class="project" style="display: none;">
+                        <h4>Customer Segmentation</h4>
+                        <div class="description">
+                            <p><strong>Service Offered:</strong> Analyze customer data to tailor marketing and improve retention rates.</p>
+                        </div>
+                        <iframe src="https://app.powerbi.com/view?r=example-id6" title="Customer Segmentation Dashboard" style="width: 100%; height: 400px; border: none; border-radius: 10px; margin: 0;"></iframe>
+                    </div>
+                </div>
+                <a href="#" class="see-more">See More</a>
+                <a href="#next-step" class="book-call">Book a Call</a>
+            </div>
+            <div class="content-block" id="services-premium">
+                <h3>Premium</h3>
+                <div class="project-container">
+                    <div class="project">
+                        <h4>Business Insight 360</h4>
+                        <div class="description">
+                            <p><strong>Service Offered:</strong> We deliver a comprehensive end-to-end BI solution spanning Finance, Sales, Supply Chain, Executive Management, and Marketing.</p>
+                        </div>
+                        <iframe src="https://app.powerbi.com/view?r=eyJrIjoiZTQyMWIwZDAtYjU5Mi00M2Y2LTg4MTYtMDE2Y2M3MmM1ZDM3IiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9" title="AtliQ Business Insight 360 Dashboard" style="width: 100%; height: 400px; border: none; border-radius: 10px; margin: 0;"></iframe>
+                    </div>
+                    <div class="project">
+                        <h4>Supply Chain Efficiency</h4>
+                        <div class="description">
+                            <p><strong>Service Offered:</strong> Optimize logistics and procurement with real-time data insights.</p>
+                        </div>
+                        <iframe src="https://app.powerbi.com/view?r=example-id4" title="Supply Chain Dashboard" style="width: 100%; height: 400px; border: none; border-radius: 10px; margin: 0;"></iframe>
+                    </div>
+                    <div class="project" style="display: none;">
+                        <h4>Financial Forecasting</h4>
+                        <div class="description">
+                            <p><strong>Service Offered:</strong> Predict cash flow and budget needs with advanced analytics.</p>
+                        </div>
+                        <iframe src="https://app.powerbi.com/view?r=example-id7" title="Financial Forecasting Dashboard" style="width: 100%; height: 400px; border: none; border-radius: 10px; margin: 0;"></iframe>
+                    </div>
+                </div>
+                <a href="#" class="see-more">See More</a>
+                <a href="#next-step" class="book-call">Book a Call</a>
+            </div>
+        </section>
+
+        <section class="value-prop" id="value-prop">
+            <h2>Value Proposition</h2>
+            <div class="content-block">
+                <h3>What This Means for Your Growing Retail Business</h3>
+                <ul>
+                    <li>Identify Your True Money Makers: Discover profitable products and channels.</li>
+                    <li>Optimize Inventory with Precision: Strategically manage stock levels.</li>
+                    <li>Maximize Marketing ROI: Allocate budget to effective campaigns.</li>
+                    <li>Scale Profitably, Not Just Busily: Focus on profit growth.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="opportunity-cost" id="opportunity-cost">
+            <h2>The Cost of Uninformed Decisions</h2>
+            <div class="content-block">
+                <h3>Impact of Delayed Insights</h3>
+                <ul>
+                    <li>Time Investment vs. Strategic Growth: Competitors gain while you compile reports.</li>
+                    <li>Cash Tied Up in Wrong Places: Resources locked in underperforming areas.</li>
+                    <li>Decision Delays Cost Competitive Edge: Lag behind fast-moving trends.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="advantage" id="advantage">
+            <h2>The Analytics Quantum Advantage</h2>
+            <div class="content-block">
+                <h3>Practical Intelligence, Measurable Results</h3>
+                <ul>
+                    <li>Immediate Clarity: Full view of performance across channels.</li>
+                    <li>Actionable Insights: Tailored recommendations for your business.</li>
+                    <li>Scalable Solutions: Adapt technology to your growth pace.</li>
+                    <li>Real-Time Decision Making: Stay ahead with daily insights.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="client-testimonials" id="client-testimonials">
+            <h2>Client Testimonials</h2>
+            <div class="content-block testimonial">
+                <p>“Their expertise in analyzing and presenting data transformed our reporting efficiency and empowered critical decision-making.”</p>
+                <p><strong>Kirsten S., VP of Workforce Advancement</strong></p>
+            </div>
+            <div class="content-block testimonial">
+                <p>“The team delivered a highly intuitive Power BI dashboard, simplifying complex data to reveal key trends and insights across six global offices.”</p>
+                <p><strong>Jessica Blodgett, Director of People, Culture, and Communities, CMMB</strong></p>
+            </div>
+        </section>
+
+        <section class="next-step" id="next-step">
+            <h2>Your Next Step</h2>
+            <div class="content-block">
+                <h3>Business Intelligence Audit - Complimentary</h3>
+                <p>Discover your biggest opportunities with our data analysis.</p>
+                <ul>
+                    <li>Current state assessment of your data systems</li>
+                    <li>Custom recommendations for your business</li>
+                    <li>Sample dashboard preview</li>
+                    <li>Clear roadmap for implementation</li>
+                </ul>
+                <a href="https://calendly.com/analyticsquantum-info/30min" class="book-call" target="_blank">Book a Call</a>
+            </div>
+        </section>
+
+        <section class="faq" id="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="content-block">
+                <h3>How much does this cost?</h3>
+                <p>Our services are tailored to your needs, starting with a free audit. Costs vary by tier (Basic, Standard, Premium), with transparent pricing discussed post-audit.</p>
+                <h3>How quickly can we see results?</h3>
+                <p>You’ll gain immediate insights from the audit. Full dashboard implementation takes 2-4 weeks, depending on complexity.</p>
+                <h3>Is our data secure?</h3>
+                <p>Yes, we use industry-standard encryption and comply with GDPR and CCPA, ensuring your data’s safety throughout our process.</p>
+                <h3>Do we need technical expertise?</h3>
+                <p>No, our solutions are user-friendly. We provide training and support to ensure your team can use the dashboards effectively.</p>
+            </div>
+        </section>
+
+        <section class="meet-team" id="meet-team">
+            <h2>Meet the Team</h2>
+            <div class="founders" style="display: flex; justify-content: center; gap: 2rem;">
+                <div class="founder">
+                    <img src="IMG_9718-removebg-preview (1).jpg" alt="Desmond Chukwura" style="width: 200px; height: 200px; border-radius: 50%; margin: 1rem auto; display: block;">
+                    <p class="writeup"><strong>Desmond Chukwura</strong> - Co-Founder<br>Together with Ikeoluwa, Desmond co-leads Analytics Quantum, blending innovative BI expertise with a shared vision to revolutionize retail through data-driven insights.</p>
+                    <a href="https://www.linkedin.com/in/chukwuradesmond/" target="_blank">LinkedIn</a><br>
+                    <a href="mailto:desmond@analyticsquantum.com">Email</a>
+                </div>
+                <div class="founder">
+                    <img src="1746558318566.jpg" alt="Ikeoluwa Oke" style="width: 200px; height: 200px; border-radius: 50%; margin: 1rem auto; display: block;">
+                    <p class="writeup"><strong>Ikeoluwa Oke</strong> - Co-Founder<br>Partnering with Desmond, Ikeoluwa drives our mission, bringing a dynamic approach to enhance business operations with cutting-edge data strategies.</p>
+                    <a href="https://www.linkedin.com/in/ikeoluwa-oke-640a6b24b/" target="_blank">LinkedIn</a><br>
+                    <a href="mailto:oke@analyticsquantum.com">Email</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="email-section">
+            <div class="schedule">Schedule a meeting. It's free!</div>
+            <div class="email-form">
+                <input type="text" placeholder="Enter Email Address" aria-label="Email Address">
+                <button type="submit">Submit</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Contact Us: <a href="mailto:info@analyticsquantum.com">Email </a> </p>
+        <p>© 2025 Analytics Quantum. All rights reserved.</p>
+        <p style="position: fixed; bottom: 10px; right: 10px; font-style: italic; color: #b0c4de; font-size: 1rem;">make confident decisions, drive growth...</p>
+    </footer>
+
+    <script>
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+            return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+            if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+                try {
+                    var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                    var firstSheetName = workbook.SheetNames[0];
+                    var worksheet = workbook.Sheets[firstSheetName];
+                    var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                    var filteredData = jsonData.filter(row => row.some(filledCell));
+                    var headerRowIndex = filteredData.findIndex((row, index) =>
+                        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                    );
+                    if (headerRowIndex === -1 || headerRowIndex > 25) {
+                        headerRowIndex = 0;
+                    }
+                    var csv = XLSX.utils.sheet_to_csv(XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)), { header: 1 });
+                    return csv;
+                } catch (e) {
+                    console.error(e);
+                    return "";
+                }
+            }
+            return gk_fileData[filename] || "";
+        }
+
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDelay = `${Math.random() * 12}s`;
+            document.body.appendChild(particle);
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                if (href && href.trim() !== '#' && document.querySelector(href)) {
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('active');
+        });
+
+        document.querySelectorAll('.see-more').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const container = this.closest('.content-block').querySelector('.project-container');
+                const projects = Array.from(container.querySelectorAll('.project'));
+                const isExpanded = projects.some(project => project.style.display !== 'none' && project.classList.contains('expanded'));
+
+                if (!isExpanded) {
+                    projects.forEach((project, index) => {
+                        project.style.display = 'block';
+                        if (index >= 2) {
+                            project.classList.add('expanded');
+                        } else {
+                            project.classList.remove('expanded');
+                        }
+                    });
+                    this.textContent = 'See Less';
+                } else {
+                    projects.forEach((project, index) => {
+                        if (index >= 2) {
+                            project.style.display = 'none';
+                            project.classList.remove('expanded');
+                        } else {
+                            project.style.display = 'block';
+                            project.classList.remove('expanded');
+                        }
+                    });
+                    this.textContent = 'See More';
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .founders {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .founder {
+            text-align: center;
+            max-width: 100%;
+        }
+        .writeup {
+            margin: 1rem auto;
+            font-size: 1.1rem;
+            text-align: center;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+        .founder a {
+            color: #1e90ff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .founder a:hover {
+            text-decoration: underline;
+        }
+        .meet-team {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .meet-team h2 {
+            color: #fff;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+        }
+    </style>
+</body>
+</html>
